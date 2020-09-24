@@ -6,6 +6,7 @@ package shim
 import (
 	"crypto/tls"
 	"errors"
+	"fmt"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim/internal"
 	pb "github.com/hyperledger/fabric-protos-go/peer"
@@ -44,6 +45,7 @@ func (cs *ChaincodeServer) Connect(stream pb.Chaincode_ConnectServer) error {
 
 // Start the server
 func (cs *ChaincodeServer) Start() error {
+	fmt.Println("Starting")
 	if cs.CCID == "" {
 		return errors.New("ccid must be specified")
 	}
