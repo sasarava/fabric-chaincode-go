@@ -41,7 +41,8 @@ func (s *Server) Start() error {
 
 	err := s.Server.Serve(s.Listener)
 
-	if err != nil {
+	fmt.Println("Started server with error " + err.Error())
+	if err == nil {
 		go s.getStatus()
 	}
 
