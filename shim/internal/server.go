@@ -5,7 +5,9 @@ package internal
 
 import (
 	"crypto/tls"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"net"
 	"time"
 
@@ -37,7 +39,21 @@ func (s *Server) Start() error {
 		return errors.New("nil server")
 	}
 
-	return s.Server.Serve(s.Listener)
+	err := s.Server.Serve(s.Listener)
+
+	if err != nil {
+		go s.getStatus()
+	}
+
+	return err
+}
+
+func (s *Server) getStatus() {
+	for {
+		time.Sleep(5 * time.Second)
+		serviceInfo, _ := json.Marshal(s.Server.GetServiceInfo())
+		fmt.Println(string(serviceInfo))
+	}
 }
 
 // Stop the server
